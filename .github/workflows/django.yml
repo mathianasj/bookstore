@@ -19,6 +19,8 @@ jobs:
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -47,4 +49,4 @@ jobs:
       working-directory: bookapi
       env:
           # The hostname used to communicate with the PostgreSQL service container
-          DB_HOST: postgres
+          DB_HOST: localhost
