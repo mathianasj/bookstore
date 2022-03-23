@@ -45,3 +45,6 @@ jobs:
       run: |
         python manage.py test
       working-directory: bookapi
+      env:
+          # The hostname used to communicate with the PostgreSQL service container
+          DB_HOST: postgres
