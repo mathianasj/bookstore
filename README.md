@@ -18,4 +18,5 @@ Run the following set of commands to get your venv setup
 To run the development server you'll first need to run the migration scripts to setup the database, and then run the actual django server.
 
 1. `python manage.py migrate`
+    1. This only needs run the first time or when changes are made to the models which would affect the database schema
 1. `python manage.py runserver`
