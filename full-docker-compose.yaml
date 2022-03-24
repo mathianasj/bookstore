@@ -1,0 +1,36 @@
+version: '3.7'
+services:
+    postgres:
+        image: postgres:latest
+        restart: always
+        environment:
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=postgres
+        logging:
+          options:
+            max-size: 10m
+            max-file: "3"
+        ports:
+          - '5432:5432'
+        volumes: 
+          - ./full-postgres-data:/var/lib/postgresql/data
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -U postgres"]
+          interval: 5s
+          timeout: 5s
+          retries: 5
+    bookstore:
+        stdin_open: true # docker run -i
+        tty: true # docker run -t
+        image: quay.io/mathianasj/bookstore:latest
+        restart: always
+        environment:
+          - DB_HOST=postgres
+          - DJANGO_SUPERUSER_USERNAME=admin
+          - DJANGO_SUPERUSER_PASSWORD=supersecret
+          - DJANGO_SUPERUSER_EMAIL=admin@example.com
+        ports:
+          - '8000:8000'
+        depends_on:
+          postgres:
+            condition: service_healthy

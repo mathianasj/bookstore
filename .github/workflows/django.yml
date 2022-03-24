@@ -50,3 +50,7 @@ jobs:
       env:
           # The hostname used to communicate with the PostgreSQL service container
           DB_HOST: localhost
+    - name: Build image
+      uses: docker/build-push-action@v2
+      with:
+        tags: quay.io/mathianasj/bookstore:latest

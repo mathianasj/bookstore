@@ -153,3 +153,4 @@ cython_debug/
 
 # db data
 postgres-data/
+full-postgres-data/
