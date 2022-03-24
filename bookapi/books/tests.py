@@ -91,6 +91,8 @@ class BookTests(APITestCase):
         url = "/books/" + str(book.id)
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['title'], "title")
+        self.assertEqual(response.data['isbn'], "1234")
 
     def test_get_book_not_found(self):
         """

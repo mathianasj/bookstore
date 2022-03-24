@@ -19,6 +19,20 @@ class UserTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
 
+    def test_get_user(self):
+        """
+        Ensure we can get a user by id
+        """
+        user = User()
+        user.set_password("abcdef")
+        user.username = "testuser"
+        user.save()
+
+        url = '/users/' + str(user.id)
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["username"], "testuser")
+
     def test_password_masked(self):
         """
         Ensure the password is mask on the user's list
