@@ -23,5 +23,6 @@ urlpatterns = [
     path('authors/', include('books.authorurls')),
     path('books/', include('books.urls')),
     path('books/<int:book_id>/transaction', include('transactions.bookurls')),
-    path('transactions/', include('transactions.urls'))
+    path('transactions/', include('transactions.urls')),
+    path('library/', include('library.urls'))
 ]
