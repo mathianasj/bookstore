@@ -7,13 +7,13 @@ from .models import Library
 class LibraryTests(APITestCase):
     def test_create_library(self):
         """
-        Ensure we can create a new author object.
+        Ensure we can create a new library object.
         """
         url = '/library/'
         data = {'name': 'Hilton Head Library', 'address': "123 Beach Street", 'city':'Hilton Head Island', 'state':'SC', 'zip':'29926'}
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
-        self.assertEqual(response.headers['location'], "/library/1")
+        self.assertEqual(response.headers['location'], "/library/" + str(Library.objects.last().id))
         self.assertEqual(Library.objects.count(), 1)
         self.assertEqual(Library.objects.get().name, 'Hilton Head Library')
         self.assertEqual(Library.objects.get().address, '123 Beach Street')

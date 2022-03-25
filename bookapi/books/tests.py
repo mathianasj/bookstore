@@ -1,10 +1,13 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+
+from library.models import Library
 from .models import Author, Book
 
 # Create your tests here.
 class AuthorTests(APITestCase):
+
     def test_create_author(self):
         """
         Ensure we can create a new author object.
@@ -47,6 +50,15 @@ class AuthorTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 class BookTests(APITestCase):
+    def setUp(self):
+        self.library = Library()
+        self.library.name = "test"
+        self.library.address = "address"
+        self.library.city = "city"
+        self.library.state = "sc"
+        self.library.zip = "1234"
+        self.library.save()
+
     def test_create_book(self):
         """
         Ensure we can create a new book object.
@@ -59,7 +71,7 @@ class BookTests(APITestCase):
         author.save()
 
         url = '/books/'
-        data = {'title': 'BookTitle', 'isbn': '1234', 'author': author.id}
+        data = {'title': 'BookTitle', 'isbn': '1234', 'author': author.id, 'library': self.library.id}
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_303_SEE_OTHER)
         self.assertEqual(response.headers['location'], "/books/1")
@@ -86,6 +98,7 @@ class BookTests(APITestCase):
         book.author = author
         book.title = "title"
         book.isbn = "1234"
+        book.library = self.library
         book.save()
 
         url = "/books/" + str(book.id)

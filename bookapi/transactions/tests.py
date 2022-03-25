@@ -1,6 +1,8 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+
+from library.models import Library
 from .models import Transaction, TransactionType
 from books.models import Author, Book
 from datetime import date, timedelta, datetime
@@ -14,10 +16,19 @@ class TransactionTest(APITestCase):
         author.last_name = "Last"
         author.save()
 
+        library = Library()
+        library.name = "test"
+        library.address = "address"
+        library.city = "city"
+        library.state = "sc"
+        library.zip = "1234"
+        library.save()
+
         self.book = Book()
         self.book.title = "Book Title"
         self.book.isbn = "12345"
         self.book.author = author
+        self.book.library = library
         self.book.save()
 
         self.user = User()
